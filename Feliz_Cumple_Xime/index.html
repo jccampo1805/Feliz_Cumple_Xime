@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños Xime</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9dfe5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .active {
+            display: flex;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #c94f7c;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .green {
+            background-color: #7ac142;
+            color: white;
+        }
+        .green:hover {
+            background-color: #6ab036;
+        }
+        .red {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .red:hover {
+            background-color: #c0392b;
+        }
+        .envelope {
+            width: 200px;
+            height: 120px;
+            background-color: #fff;
+            border: 2px solid #c94f7c;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f9dfe5;
+            border-radius: 10px 10px 0 0;
+            transform-origin: top;
+            transform: rotateX(0deg);
+            transition: transform 0.8s;
+        }
+        .envelope.open::before {
+            transform: rotateX(-180deg);
+        }
+        .letter {
+            max-width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        .letter.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" src="https://cdn.pixabay.com/audio/2023/05/05/audio_f3f310e872.mp3" autoplay loop></audio>
+
+    <div id="screen1" class="screen active">
+        <h1>🎉 ¡Feliz cumpleaños, Xime! 🎉</h1>
+        <p>Bienvenida a esta pequeña sorpresa que te preparé con mucho cariño.</p>
+        <button class="green" onclick="nextScreen(2)">Continuar</button>
+    </div>
+
+    <div id="screen2" class="screen">
+        <h1>¿Te gustaría abrir esta carta?</h1>
+        <button class="green" onclick="nextScreen(3)">Me encantaría</button>
+        <button class="red" onclick="showOuch()">No</button>
+        <div id="ouchMessage" style="display:none; margin-top: 20px;">
+            <p>Ouch... Te daré otra oportunidad.</p>
+            <button class="green" onclick="resetOuch()">De nuevo</button>
+        </div>
+    </div>
+
+    <div id="screen3" class="screen">
+        <h1>Haz clic en el sobre para abrir tu carta</h1>
+        <div class="envelope" onclick="openEnvelope()"></div>
+        <div id="letter" class="letter">
+            <h2>Querida Ximenita,</h2>
+            <p>Hoy es un día especial, no solo porque celebras un año más de vida, sino porque el mundo celebra que existes, y eso, créeme, ya es motivo de alegría para muchos... y especialmente para mí.</p>
+            <p>Aunque quizás no te lo diga tan seguido, quiero que sepas que eres una persona que ilumina más de lo que imagina. Cada mensaje tuyo, cada palabra, tiene esa chispa que logra mejorar incluso los días más grises.</p>
+            <p>A veces me sorprende cómo alguien puede ser tan especial sin proponérselo. Y aunque nuestras conversaciones sean simples a veces, para mí tienen un valor enorme. No sabes cuánto aprecio tenerte en mi vida, aunque sea de esta forma, y cuánto me alegra cada vez que volvemos a hablar.</p>
+            <p>Hoy no quiero llenarte de palabras, solo desearte con el corazón que tengas un cumpleaños hermoso, que la vida te regale momentos tan bonitos como los que tú sueles provocar sin darte cuenta.</p>
+            <p><strong>🎂 Feliz cumpleaños, Xime. Espero que la pases muy bien en este día tan especial para ti. Te quiero muchísimo y ojalá nunca te vayas de mi lado. 💕</strong></p>
+        </div>
+    </div>
+
+    <script>
+        function nextScreen(screenNumber) {
+            document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+            document.getElementById(`screen${screenNumber}`).classList.add('active');
+        }
+        function showOuch() {
+            document.getElementById('ouchMessage').style.display = 'block';
+        }
+        function resetOuch() {
+            document.getElementById('ouchMessage').style.display = 'none';
+        }
+        function openEnvelope() {
+            const envelope = document.querySelector('.envelope');
+            envelope.classList.add('open');
+            setTimeout(() => {
+                document.getElementById('letter').classList.add('show');
+            }, 800);
+        }
+        document.addEventListener('click', () => {
+            const bgMusic = document.getElementById('bgMusic');
+            if (bgMusic.paused) {
+                bgMusic.play();
+            }
+        }, { once: true });
+    </script>
+
+</body>
+</html>
